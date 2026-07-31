@@ -1,0 +1,60 @@
+{
+  "name": "@htmldrop.app/mcp",
+  "mcpName": "app.htmldrop/mcp",
+  "version": "0.3.2",
+  "description": "Model Context Protocol server for htmldrop — publish HTML or Markdown to a real hosted URL from Claude Desktop, Claude Code, Cursor, or any MCP-aware client.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "claude",
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "cline",
+    "anthropic",
+    "htmldrop",
+    "publish",
+    "hosting",
+    "ai-tools"
+  ],
+  "homepage": "https://htmldrop.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/middleeastsoftware/htmldrop-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/middleeastsoftware/htmldrop-mcp/issues"
+  },
+  "license": "MIT",
+  "author": "Middle East Software Solutions Limited",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "htmldrop-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "start": "node dist/index.js",
+    "pack:mcpb": "node scripts/pack-mcpb.mjs",
+    "test": "npm run build && node --test \"test/**/*.test.mjs\""
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.5.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

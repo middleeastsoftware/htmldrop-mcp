@@ -1,0 +1,39 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "app.htmldrop/mcp",
+  "description": "Publish HTML or Markdown to a live hosted URL on htmldrop.app — turn anything your agent generates into a shareable page, with list and delete tools to manage your drops.",
+  "version": "0.3.2",
+  "websiteUrl": "https://htmldrop.app",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://htmldrop.app/mcp"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@htmldrop.app/mcp",
+      "version": "0.3.2",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "HTMLDROP_API_TOKEN",
+          "description": "htmldrop API token (hsk_live_…). Create one at https://htmldrop.app/dashboard/settings → API tokens.",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "HTMLDROP_API_URL",
+          "description": "Override the API base URL. Leave unset to use htmldrop.app's hosted API; set only for self-hosted or staging deployments.",
+          "isRequired": false,
+          "isSecret": false,
+          "default": "https://htmldrop.app/api/v1"
+        }
+      ]
+    }
+  ]
+}

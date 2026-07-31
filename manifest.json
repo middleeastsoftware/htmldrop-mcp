@@ -1,0 +1,83 @@
+{
+  "dxt_version": "0.1",
+  "name": "htmldrop-mcp",
+  "display_name": "htmldrop",
+  "version": "0.3.2",
+  "description": "Publish HTML or Markdown to a real hosted URL from Claude. Turns anything Claude generates into a shareable page on htmldrop.app — CVs, portfolios, landing pages, dashboards, internal docs. Includes password protection, version history, and custom domains on paid plans.",
+  "long_description": "htmldrop is a SaaS HTML/Markdown hosting product. This MCP server gives Claude (and any other MCP-aware client) three tools:\n\n• htmldrop_publish — take HTML or Markdown, return a public share URL\n• htmldrop_list    — list every site under your account\n• htmldrop_delete  — remove a site by id\n\nAuthentication uses an API token from your htmldrop dashboard. Create one at https://htmldrop.app/dashboard/settings → API tokens. The token is stored encrypted in your OS keychain by Claude Desktop and passed to the server at launch.\n\nFree tier: 3 active drops, 30-day TTL. Starter/Pro/Business plans unlock more drops, custom domains, password protection, branding removal, and longer version history.",
+  "author": {
+    "name": "Middle East Software Solutions Limited",
+    "url": "https://htmldrop.app"
+  },
+  "homepage": "https://htmldrop.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/middleeastsoftware/htmldrop"
+  },
+  "documentation": "https://htmldrop.app/docs/mcp",
+  "license": "MIT",
+  "keywords": [
+    "publish",
+    "hosting",
+    "html",
+    "markdown",
+    "share",
+    "htmldrop"
+  ],
+  "icon": "icon.png",
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/server/index.js"
+      ],
+      "env": {
+        "HTMLDROP_API_TOKEN": "${user_config.api_token}",
+        "HTMLDROP_API_URL": "${user_config.api_url}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "htmldrop_publish",
+      "description": "Publish an HTML or Markdown document as a hosted page on htmldrop. Returns the public share URL."
+    },
+    {
+      "name": "htmldrop_list",
+      "description": "List every site the authenticated tenant has published."
+    },
+    {
+      "name": "htmldrop_delete",
+      "description": "Delete a site by id."
+    }
+  ],
+  "user_config": {
+    "api_token": {
+      "type": "string",
+      "title": "htmldrop API token",
+      "description": "Create one in your dashboard at htmldrop.app/dashboard/settings → API tokens. Looks like hsk_live_… and starts with `hsk_`.",
+      "sensitive": true,
+      "required": true
+    },
+    "api_url": {
+      "type": "string",
+      "title": "API base URL (advanced)",
+      "description": "Override the API endpoint. Leave at the default unless you're running a self-hosted htmldrop.",
+      "default": "https://htmldrop.app/api/v1",
+      "required": false
+    }
+  },
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": [
+      "darwin",
+      "linux",
+      "win32"
+    ],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  }
+}

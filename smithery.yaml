@@ -1,0 +1,51 @@
+# Smithery.ai registry manifest for @htmldrop.app/mcp.
+# Listing URL once registered: https://smithery.ai/server/@htmldrop.app/mcp
+#
+# Reference: https://smithery.ai/docs/config
+
+name: htmldrop
+displayName: htmldrop
+description: |
+  Publish HTML or Markdown to a real hosted URL straight from your chat.
+  Turns anything Claude generates into a shareable page on htmldrop.app —
+  CVs, portfolios, landing pages, dashboards, internal docs. Includes
+  password protection, version history, and custom domains on paid plans.
+homepage: https://htmldrop.app
+repository: https://github.com/middleeastsoftware/htmldrop
+documentation: https://htmldrop.app/docs/mcp
+license: MIT
+keywords:
+  - publish
+  - hosting
+  - html
+  - markdown
+  - claude
+  - htmldrop
+
+# How clients run the server. npx -y fetches the latest published
+# version from npm; no global install required.
+startCommand:
+  type: stdio
+  command: npx
+  args: ["-y", "@htmldrop.app/mcp"]
+  # Config schema — Smithery uses this to render the "configure this
+  # server" UI before the install button copies the JSON block.
+  configSchema:
+    type: object
+    required: [HTMLDROP_API_TOKEN]
+    properties:
+      HTMLDROP_API_TOKEN:
+        type: string
+        title: htmldrop API token
+        description: |
+          Your htmldrop API token. Create one at
+          https://htmldrop.app/dashboard/settings → API tokens.
+          Format: hsk_live_<32 hex characters>.
+        format: password
+      HTMLDROP_API_URL:
+        type: string
+        title: API base URL (advanced)
+        description: |
+          Override the API endpoint. Leave blank to use htmldrop.app's
+          hosted API. Set only for self-hosted / staging deployments.
+        default: https://htmldrop.app/api/v1
