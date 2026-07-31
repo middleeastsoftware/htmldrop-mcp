@@ -2,7 +2,7 @@
   "dxt_version": "0.1",
   "name": "htmldrop-mcp",
   "display_name": "htmldrop",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Publish HTML or Markdown to a real hosted URL from Claude. Turns anything Claude generates into a shareable page on htmldrop.app — CVs, portfolios, landing pages, dashboards, internal docs. Includes password protection, version history, and custom domains on paid plans.",
   "long_description": "htmldrop is a SaaS HTML/Markdown hosting product. This MCP server gives Claude (and any other MCP-aware client) three tools:\n\n• htmldrop_publish — take HTML or Markdown, return a public share URL\n• htmldrop_list    — list every site under your account\n• htmldrop_delete  — remove a site by id\n\nAuthentication uses an API token from your htmldrop dashboard. Create one at https://htmldrop.app/dashboard/settings → API tokens. The token is stored encrypted in your OS keychain by Claude Desktop and passed to the server at launch.\n\nFree tier: 3 active drops, 30-day TTL. Starter/Pro/Business plans unlock more drops, custom domains, password protection, branding removal, and longer version history.",
   "author": {

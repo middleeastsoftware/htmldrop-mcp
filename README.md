@@ -18,6 +18,8 @@ Then just ask: *"Make a single-page HTML CV for Alex Rivera and publish it to ht
 
 ## Local server (stdio) — for CI, scripts, and clients without remote support
 
+> **Prefer the remote server above for interactive use.** The stdio server authenticates with a static API token — the standard MCP pattern for local servers, but it's a full-privilege credential in a config file. Use it where OAuth can't reach: CI pipelines, headless scripts, clients without remote MCP support, or self-hosted instances. In CI, inject the token from your secret store (GitHub Actions secrets, etc.), never inline.
+
 1. **Create an API token.** Sign in at [htmldrop.app/dashboard/settings](https://htmldrop.app/dashboard/settings) → API tokens → Create token. Copy the `hsk_live_…` value — it's shown only once.
 
 2. **Add to your MCP client config.** For **Claude Desktop** edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
@@ -66,8 +68,8 @@ The MCP server hits the same API your dashboard does, so plan caps apply — fre
 
 ## Security notes
 
-- The remote server (`https://htmldrop.app/mcp`) follows the MCP authorization spec: OAuth 2.1 with PKCE, discovery via RFC 9728 protected-resource metadata, and short-lived tokens your client refreshes automatically. Tokens are never passed in URLs.
-- Local-server API tokens carry full tenant privileges. Keep them out of source control; revoke from Settings → API tokens (effective immediately).
+- The remote server (`https://htmldrop.app/mcp`) follows the MCP authorization spec: OAuth 2.1 with PKCE, discovery via RFC 9728 protected-resource metadata, and short-lived tokens your client refreshes automatically. Tokens are never passed in URLs. This is the recommended path for humans in MCP clients — no static credential exists anywhere.
+- Local-server API tokens (`hsk_live_…`) carry full tenant privileges — treat them like a password. Keep them out of source control, store them in a secret manager or your CI's encrypted secrets (not a committed config file), and revoke from Settings → API tokens the moment one may have leaked (revocation is effective immediately). The `.mcpb` one-click install for Claude Desktop stores the token in your OS keychain rather than a plaintext file.
 - The stdio server runs on your machine. No traffic flows through htmldrop other than the API calls the tool makes on your behalf.
 
 ## Development
