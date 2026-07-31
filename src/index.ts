@@ -35,7 +35,7 @@ import http from "node:http";
 import { buildWwwAuthenticate, needsAuth, parseToken, TokenVerdictCache } from "./auth.js";
 
 const SERVER_NAME = "htmldrop";
-const SERVER_VERSION = "0.3.3";
+const SERVER_VERSION = "0.3.4";
 
 // ── token plumbing ─────────────────────────────────────────────────
 

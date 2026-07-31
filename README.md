@@ -16,35 +16,33 @@ The first time the model publishes, your browser opens a sign-in — approve onc
 
 Then just ask: *"Make a single-page HTML CV for Alex Rivera and publish it to htmldrop."* The model calls `htmldrop_publish` and replies with the live URL.
 
-## Local server (stdio) — for CI, scripts, and clients without remote support
+## Interactive clients — always use the remote
 
-> **Prefer the remote server above for interactive use.** The stdio server authenticates with a static API token — the standard MCP pattern for local servers, but it's a full-privilege credential in a config file. Use it where OAuth can't reach: CI pipelines, headless scripts, clients without remote MCP support, or self-hosted instances. In CI, inject the token from your secret store (GitHub Actions secrets, etc.), never inline.
+Claude Code (above), **Claude Desktop** (Settings → Connectors → Add custom connector → `https://htmldrop.app/mcp`), **Cursor** (Settings → MCP → Add remote server), and other remote-capable clients should all use the hosted URL. You sign in once in the browser; no credential is ever written to a config file. Per-client walkthroughs: [htmldrop.app/agents](https://htmldrop.app/agents/).
 
-1. **Create an API token.** Sign in at [htmldrop.app/dashboard/settings](https://htmldrop.app/dashboard/settings) → API tokens → Create token. Copy the `hsk_live_…` value — it's shown only once.
+## CI, scripts, and headless use — local server (stdio)
 
-2. **Add to your MCP client config.** For **Claude Desktop** edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+Automation can't do a browser sign-in, so the stdio server authenticates with an API token — created at [htmldrop.app/dashboard/settings](https://htmldrop.app/dashboard/settings) → API tokens (`hsk_live_…`, shown once). **Store it in your secret manager or CI's encrypted secrets and reference it — never write the literal value into a config file or repository.**
 
-   ```json
-   {
-     "mcpServers": {
-       "htmldrop": {
-         "command": "npx",
-         "args": ["-y", "@htmldrop.app/mcp"],
-         "env": {
-           "HTMLDROP_API_TOKEN": "hsk_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-         }
-       }
-     }
-   }
-   ```
+GitHub Actions example:
 
-   For **Claude Code**: `claude mcp add htmldrop --env HTMLDROP_API_TOKEN=hsk_live_... -- npx -y @htmldrop.app/mcp`
+```yaml
+- name: Publish report page
+  env:
+    HTMLDROP_API_TOKEN: ${{ secrets.HTMLDROP_API_TOKEN }}
+  run: |
+    npx -y @htmldrop.app/mcp &   # stdio server for your MCP-driving tool
+    # …or call the REST API directly: https://htmldrop.app/docs/api
+```
 
-   For **Cursor**: Settings → MCP → Add server with command `npx`, args `["-y", "@htmldrop.app/mcp"]`, env `HTMLDROP_API_TOKEN`.
+Shell/session example (token from your OS keychain or secret manager, not typed inline):
 
-   For **Cline** (VS Code): open Cline's MCP Settings panel and add the same `npx` block.
+```
+export HTMLDROP_API_TOKEN="$(security find-generic-password -s htmldrop -w)"  # macOS Keychain
+npx -y @htmldrop.app/mcp
+```
 
-3. **Restart your MCP client.** It fetches and launches the server on first use.
+If a client genuinely can't speak remote MCP *and* isn't automation (rare now), the classic `mcpServers` JSON block with an env entry works — accept that it stores the token in that client's config file, and prefer the `.mcpb` bundle for Claude Desktop, which keeps the token in the OS keychain instead.
 
 ## Tools
 
