@@ -49,3 +49,7 @@ startCommand:
           Override the API endpoint. Leave blank to use htmldrop.app's
           hosted API. Set only for self-hosted / staging deployments.
         default: https://htmldrop.app/api/v1
+# NOTE: htmldrop.app/mcp supports OAuth and is a valid target for Smithery's
+# external-URL listing type, but that type is published via
+# `smithery mcp publish <url> -n <name>` (CLI) or smithery.ai/new — not
+# through this file. The stdio listing above remains the accurate one.
