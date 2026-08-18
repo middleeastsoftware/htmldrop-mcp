@@ -32,7 +32,7 @@ GitHub Actions example:
     HTMLDROP_API_TOKEN: ${{ secrets.HTMLDROP_API_TOKEN }}
   run: |
     npx -y @htmldrop.app/mcp &   # stdio server for your MCP-driving tool
-    # …or call the REST API directly: https://htmldrop.app/docs/api
+    # …or call the REST API directly: https://docs.htmldrop.app/api/authentication
 ```
 
 Shell/session example (token from your OS keychain or secret manager, not typed inline):

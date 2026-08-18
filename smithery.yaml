@@ -12,7 +12,7 @@ description: |
   password protection, version history, and custom domains on paid plans.
 homepage: https://htmldrop.app
 repository: https://github.com/middleeastsoftware/htmldrop
-documentation: https://htmldrop.app/docs/mcp
+documentation: https://docs.htmldrop.app/agents/overview
 license: MIT
 keywords:
   - publish

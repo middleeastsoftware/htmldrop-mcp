@@ -14,7 +14,7 @@
     "type": "git",
     "url": "https://github.com/middleeastsoftware/htmldrop"
   },
-  "documentation": "https://htmldrop.app/docs/mcp",
+  "documentation": "https://docs.htmldrop.app/agents/overview",
   "license": "MIT",
   "keywords": [
     "publish",
