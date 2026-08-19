@@ -548,7 +548,27 @@ if (mode === "http") {
   });
 } else {
   if (!currentToken()) {
-    process.stderr.write("htmldrop-mcp: HTMLDROP_API_TOKEN is required for stdio mode\n");
+    // Agents onboarding a user land here when they pick this package instead
+    // of the hosted server, and a bare "token required" line reads as "this
+    // product is broken". Name the one-command alternative that needs no
+    // token at all, and only then explain the token path this mode wants.
+    process.stderr.write(
+      [
+        "htmldrop-mcp: no API token, so stdio mode cannot start.",
+        "",
+        "If a browser is available, do not use this package. Use the hosted",
+        "server instead — no npm install, no token:",
+        "",
+        "  claude mcp add --transport http htmldrop https://htmldrop.app/mcp",
+        "",
+        "Any MCP client: add https://htmldrop.app/mcp as a remote (streamable",
+        "HTTP) server. Sign-in happens in the browser on the first tool call.",
+        "",
+        "This stdio build is for headless/CI use. To use it, create a token at",
+        "https://htmldrop.app/dashboard/settings and set HTMLDROP_API_TOKEN.",
+        "",
+      ].join("\n"),
+    );
     process.exit(2);
   }
   const transport = new StdioServerTransport();
